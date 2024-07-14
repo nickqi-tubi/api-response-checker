@@ -1,16 +1,19 @@
 const { SERVICES, clients } = require('.');
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 it('should return a list of clients', async () => {
   const keys = Object.keys(clients);
   expect(keys).toEqual(SERVICES);
 });
 
 describe('check user deletion', () => {
+  let passedResponse = {};
   let unexpectedResponse = {};
 
   afterAll(() => {
+    if (Object.keys(passedResponse).length) {
+      console.log('Passed responses:', passedResponse);
+    }
+
     if (Object.keys(unexpectedResponse).length) {
       console.log('Unexpected responses:', unexpectedResponse);
     }
@@ -43,18 +46,22 @@ describe('check user deletion', () => {
     'should handle user deletion when service=$service and pathname=$pathname',
     async ({ service, pathname, params }) => {
       expect.assertions(2);
-      await sleep(500);
+
+      let response;
+      let hasPassed = false;
 
       try {
-        await clients[service].get(pathname, { params });
+        response = await clients[service].get(pathname, { params });
       } catch (err) {
-        const { response } = err;
-        unexpectedResponse[`${service}:${pathname}`] = {
+        response = err.response;
+        expect(response.status).toBe(401);
+        expect(response.data).toEqual(expect.objectContaining({ code: 'USER_NOT_FOUND' }));
+        hasPassed = true;
+      } finally {
+        (hasPassed ? passedResponse : unexpectedResponse)[`${service}:${pathname}`] = {
           status: response.status,
           data: response.data,
         };
-        expect(response.status).toBe(401);
-        expect(response.data).toEqual(expect.objectContaining({ code: 'USER_NOT_FOUND' }));
       }
     },
   );

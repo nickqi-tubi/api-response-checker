@@ -1,6 +1,8 @@
 require('dotenv').config();
 const axios = require('axios');
 
+const SERVICES = ['account', 'crm', 'epg', 'lishi', 'search', 'tensor', 'uapi', 'user-queue'];
+
 const genClient = (service) =>
   axios.create({
     baseURL: `https://${service}.production-public.tubi.io`,
@@ -9,11 +11,12 @@ const genClient = (service) =>
     },
   });
 
-const clients = ['account', 'tensor', 'search'].reduce((acc, service) => {
+const clients = SERVICES.reduce((acc, service) => {
   acc[service] = genClient(service);
   return acc;
 }, {});
 
 module.exports = {
+  SERVICES,
   clients,
 };

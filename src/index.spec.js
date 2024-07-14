@@ -6,8 +6,10 @@ it('should return a list of clients', async () => {
 });
 
 it.each`
-  service     | pathname                | params
-  ${'tensor'} | ${'/api/v3/homescreen'} | ${undefined}
+  service      | pathname                | params
+  ${'account'} | ${'/user/settings'}     | ${undefined}
+  ${'tensor'}  | ${'/api/v3/homescreen'} | ${undefined}
+  ${'tensor'}  | ${'/api/v4/homescreen'} | ${undefined}
 `('should handle user deletion when service=$service and pathname=$pathname', async ({ service, pathname, params }) => {
   expect.assertions(2);
   try {

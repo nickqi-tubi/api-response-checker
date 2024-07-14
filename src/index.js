@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const genClient = (service) =>
   axios.create({
-    baseURL: 'https://tensor.production-public.tubi.io',
+    baseURL: `https://${service}.production-public.tubi.io`,
     headers: {
       Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
     },

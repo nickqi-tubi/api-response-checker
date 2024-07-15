@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
 
-const SERVICES = ['account', 'crm', 'epg', 'lishi', 'search', 'tensor', 'uapi', 'user-queue'];
+const SERVICES = ['account', 'crm', 'epg', 'lishi', 'search', 'tensor', 'user-queue'];
 
 const genClient = (service) =>
   axios.create({

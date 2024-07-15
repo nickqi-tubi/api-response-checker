@@ -38,8 +38,6 @@ describe('check user deletion', () => {
     ${'tensor'}     | ${'/api/v1/live_programming'}         | ${undefined}
     ${'tensor'}     | ${'/api/v1/pmr'}                      | ${undefined}
     ${'tensor'}     | ${'/api/v1/scenes'}                   | ${undefined}
-    ${'uapi'}       | ${'/matrix/homescreen'}               | ${undefined}
-    ${'uapi'}       | ${'/matrix/containers/featured'}      | ${undefined}
     ${'user-queue'} | ${'/api/v1/linear_reminder'}          | ${undefined}
     ${'user-queue'} | ${'/api/v2/queues'}                   | ${undefined}
   `(

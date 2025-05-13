@@ -1,0 +1,13 @@
+name: Check Sitemap API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check index endpoint
+        run: |
+          curl --location 'https://tensor.production-public.tubi.io/internal/v1/sitemap/index' \
+          --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}'

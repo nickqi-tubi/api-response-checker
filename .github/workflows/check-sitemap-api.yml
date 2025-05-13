@@ -9,5 +9,11 @@ jobs:
     steps:
       - name: Check index endpoint
         run: |
-          curl --location 'https://tensor.production-public.tubi.io/internal/v1/sitemap/index' \
-          --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}'
+          response=$(curl --location 'https://tensor.production-public.tubi.io/internal/v1/sitemap/index' \
+          --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}')
+
+          echo "Full response:"
+          echo "$response"
+
+          echo -e "\nExtracted sci_fi_and_fantasy item:"
+          echo "$response" | jq '.containers[] | select(.id == "sci_fi_and_fantasy")'

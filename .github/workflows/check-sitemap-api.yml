@@ -9,11 +9,19 @@ jobs:
     steps:
       - name: Check index endpoint
         run: |
-          response=$(curl --location 'https://tensor.production-public.tubi.io/internal/v1/sitemap/index' \
-          --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}')
+          response=$(curl 'https://tensor.production-public.tubi.io/internal/v1/sitemap/index' \
+            --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}')
 
           echo "Full response:"
           echo "$response"
 
           echo -e "\nExtracted sci_fi_and_fantasy item:"
           echo "$response" | jq '.containers[] | select(.id == "sci_fi_and_fantasy")'
+
+      - name: Check container endpoint
+        run: |
+          response=$(curl 'https://tensor.production-public.tubi.io/internal/v1/sitemap/containers/sci_fi_and_fantasy?cursor=5000&contents_limit=5000' \
+            --header 'Authorization: ${{ secrets.TENSOR_INTERNAL_TOKEN }}')
+
+          echo "Container endpoint response:"
+          echo "$response" | jq '.'
